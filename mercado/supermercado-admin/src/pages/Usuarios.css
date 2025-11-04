@@ -1,0 +1,71 @@
+.usuarios-layout {
+  display: table;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.lista-usuarios {
+  display: table-cell;
+  width: 65%;
+  padding-right: 20px;
+}
+
+.painel-lateral {
+  display: table-cell;
+  width: 35%;
+  vertical-align: top;
+}
+
+.detalhes-card {
+  background: white;
+  padding: 20px;
+  border: 1px solid #ddd;
+}
+
+.detalhes-card h2 {
+  margin-top: 0;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.detalhes-info {
+  margin-bottom: 20px;
+}
+
+.detalhe-item {
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  margin-bottom: 10px;
+}
+
+.detalhe-item strong {
+  color: #666;
+  font-size: 12px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.detalhe-item span {
+  color: #333;
+  font-size: 14px;
+  display: block;
+}
+
+.detalhes-acoes button {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.btn-visualizar {
+  background-color: #5bc0de;
+  color: white;
+  border: 1px solid #46b8da;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-visualizar:hover {
+  background-color: #46b8da;
+}
