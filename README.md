@@ -72,4 +72,3 @@ O sistema possui uma interface simples e funcional com:
 - Formulários de cadastro e edição
 - Tabelas para listagem de dados
 - Feedback visual para ações do usuário
-```
