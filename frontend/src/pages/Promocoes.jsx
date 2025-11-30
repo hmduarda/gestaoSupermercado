@@ -1,6 +1,6 @@
-// importando hooks do react
+
 import { useState, useEffect } from "react";
-// importando funcoes da api que precisamos pra promocoes
+
 import {
   listarProdutos,
   aplicarPromocao,
@@ -8,31 +8,31 @@ import {
 } from "../services/api";
 import "./Promocoes.css";
 
-// pagina de gerenciamento de promocoes
+
 const Promocoes = () => {
-  // estado com a lista de produtos
+  
   const [produtos, setProdutos] = useState([]);
-  // estado com o produto que o usuario selecionou no dropdown
+  
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
-  // estado com o preco promocional que o usuario digitou
+  
   const [precoPromocao, setPrecoPromocao] = useState("");
 
-  // carrega os produtos quando a pagina abre
+  
   useEffect(() => {
     carregarProdutos();
   }, []);
 
-  // funcao que busca os produtos
-  const carregarProdutos = () => {
-    const dados = listarProdutos();
+  
+  const carregarProdutos = async () => {
+    const dados = await listarProdutos();
     setProdutos(dados);
   };
 
-  // funcao que aplica a promocao quando o usuario submete o formulario
-  const handleAplicarPromocao = (e) => {
+  
+  const handleAplicarPromocao = async (e) => {
     e.preventDefault();
 
-    // valida se o usuario selecionou um produto e digitou o preco
+    
     if (!produtoSelecionado || !precoPromocao) {
       alert("Selecione um produto e informe o preço promocional");
       return;
@@ -40,41 +40,41 @@ const Promocoes = () => {
 
     const preco = parseFloat(precoPromocao);
 
-    // valida se o preco promocional e menor que o preco normal
+    
     if (preco >= produtoSelecionado.precoAtual) {
       alert("O preço promocional deve ser menor que o preço atual");
       return;
     }
 
-    aplicarPromocao(produtoSelecionado.id, preco);
+    await aplicarPromocao(produtoSelecionado._id, preco);
     alert("Promoção aplicada com sucesso!");
 
-    // limpa o formulario
+    
     setProdutoSelecionado(null);
     setPrecoPromocao("");
-    // recarrega a lista pra mostrar a promocao aplicada
-    carregarProdutos();
+    
+    await carregarProdutos();
   };
 
-  // funcao que remove a promocao de um produto
-  const handleRemoverPromocao = (produto) => {
+  
+  const handleRemoverPromocao = async (produto) => {
     if (window.confirm(`Deseja remover a promoção de ${produto.nome}?`)) {
-      removerPromocao(produto.id);
+      await removerPromocao(produto._id);
       alert("Promoção removida com sucesso!");
-      carregarProdutos();
+      await carregarProdutos();
     }
   };
 
-  // funcao que calcula a porcentagem de desconto
-  // recebe um produto e retorna o desconto em %
+  
+  
   const calcularDesconto = (produto) => {
-    if (!produto.precoPromocao) return 0; // se nao tem promocao, desconto e 0
+    if (!produto.precoPromocao) return 0; 
 
-    // formula: ((preco normal - preco promocao) / preco normal) * 100
+    
     const desconto =
       ((produto.precoAtual - produto.precoPromocao) / produto.precoAtual) * 100;
 
-    return desconto.toFixed(0); // tofixed(0) arredonda pra numero inteiro
+    return desconto.toFixed(0); 
   };
 
   return (
@@ -91,21 +91,21 @@ const Promocoes = () => {
             <div className="grupoFormulario">
               <label>Selecione o Produto:</label>
               <select
-                value={produtoSelecionado?.id || ""} // usa optional chaining (?.)
+                value={produtoSelecionado?._id || ""} 
                 onChange={(e) => {
-                  // Quando seleciona um produto, procura ele no array
+                  
                   const produto = produtos.find(
-                    (p) => p.id === parseInt(e.target.value)
+                    (p) => p._id === e.target.value
                   );
                   setProdutoSelecionado(produto);
-                  setPrecoPromocao(""); // limpa o campo de preço
+                  setPrecoPromocao(""); 
                 }}
                 required
               >
                 <option value="">Escolha um produto</option>
                 {/* mapeia os produtos pra criar as opcoes do select */}
                 {produtos.map((produto) => (
-                  <option key={produto.id} value={produto.id}>
+                  <option key={produto._id} value={produto._id}>
                     {produto.nome} - R$ {produto.precoAtual.toFixed(2)}
                   </option>
                 ))}
@@ -185,7 +185,7 @@ const Promocoes = () => {
               {produtos
                 .filter((p) => p.precoPromocao)
                 .map((produto) => (
-                  <div key={produto.id} className="cardPromocao">
+                  <div key={produto._id} className="cardPromocao">
                     <div className="seletoDesconto">
                       -{calcularDesconto(produto)}%
                     </div>
@@ -216,3 +216,4 @@ const Promocoes = () => {
 };
 
 export default Promocoes;
+

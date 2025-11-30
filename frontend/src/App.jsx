@@ -1,8 +1,8 @@
-// importando o react router pra fazer a navegacao entre paginas
-// browserRouter gerencia as rotas
-// routes define onde as rotas ficam
-// route define cada rota individual
-// navigate e pra redirecionar
+
+
+
+
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -10,28 +10,28 @@ import {
   Navigate,
 } from "react-router-dom";
 
-// importando o provider de autenticacao que criamos
+
 import { AuthProvider } from "./context/AuthContext";
 
-// importando o componente que protege as rotas
+
 import RotaProtegida from "./components/RotaProtegida";
 
-// importando a navbar
+
 import Navbar from "./components/Navbar";
 
-// importando todas tds as paginas
+
 import Login from "./pages/Login";
 import Produtos from "./pages/Produtos";
 import Promocoes from "./pages/Promocoes";
 import Usuarios from "./pages/Usuarios";
 
-// css global da aplicacao
+
 import "./App.css";
 
-// componente principal da aplicacao
+
 function App() {
   return (
-    // authprovider envolve tudo pra que todos os componentes tenham acesso ao contexto de autenticacao
+    
     <AuthProvider>
       {/* router habilita a navegacao sem recarregar a pagina */}
       <Router>
@@ -84,3 +84,4 @@ function App() {
 }
 
 export default App;
+

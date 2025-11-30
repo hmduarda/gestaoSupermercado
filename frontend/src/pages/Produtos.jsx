@@ -1,26 +1,26 @@
-// usestate pra guardar estados, useeffect pra executar codigo quando o componente carrega
+
 import { useState, useEffect } from "react";
-// importando as funcoes da api mock que criamos
+
 import {
   listarProdutos,
   adicionarProduto,
   atualizarProduto,
   removerProduto,
 } from "../services/api";
-// css da pagina de produtos
+
 import "./Produtos.css";
 
 const Produtos = () => {
-  // estado que guarda a lista de produtos
+  
   const [produtos, setProdutos] = useState([]);
 
-  // estado pra controlar se o formulario ta aparecendo ou nao
+  
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
 
-  // estado que guarda qual produto ta sendo editado (null = ta adicionando um novo)
+  
   const [produtoEditando, setProdutoEditando] = useState(null);
 
-  // estado que guarda os valores do formulario
+  
   const [formulario, setFormulario] = useState({
     nome: "",
     precoAtual: "",
@@ -29,52 +29,52 @@ const Produtos = () => {
     dataValidade: "",
   });
 
-  // useeffect executa quando o componente e montado (carrega pela primeira vez)
-  // [] vazio significa que so executa uma vez
+  
+  
   useEffect(() => {
-    carregarProdutos(); // carrega os produtos do "backend"
+    carregarProdutos(); 
   }, []);
 
-  // funcao que busca os produtos e atualiza o estado
-  const carregarProdutos = () => {
-    const dados = listarProdutos();
+  
+  const carregarProdutos = async () => {
+    const dados = await listarProdutos();
     setProdutos(dados);
   };
 
-  // funcao que executa quando o usuario digita em algum campo do formulario
+  
   const handleInputChange = (e) => {
-    const { name, value } = e.target; // pega o name e value do input
-    // atualiza o formulario mantendo os valores anteriores e mudando so o campo que foi editado
+    const { name, value } = e.target; 
+    
     setFormulario({ ...formulario, [name]: value });
   };
 
-  // funcao que executa quando o usuario submete o formulario
-  const handleSubmit = (e) => {
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // prepara os dados do produto
+    
     const produtoData = {
       ...formulario,
       precoAtual: parseFloat(formulario.precoAtual),
     };
 
-    // verifica se ta editando ou adicionando
+    
     if (produtoEditando) {
-      atualizarProduto(produtoEditando.id, produtoData);
+      await atualizarProduto(produtoEditando._id, produtoData);
     } else {
-      adicionarProduto(produtoData);
+      await adicionarProduto(produtoData);
     }
 
-    // limpa o formulario e recarrega a lista
+    
     limparFormulario();
-    carregarProdutos();
+    await carregarProdutos();
   };
 
-  // funcao que executa quando clica no botao editar
+  
   const handleEditar = (produto) => {
-    setProdutoEditando(produto); // guarda qual produto ta editando
+    setProdutoEditando(produto); 
 
-    // preenche o formulario com os dados do produto
+    
     setFormulario({
       nome: produto.nome,
       precoAtual: produto.precoAtual,
@@ -83,20 +83,20 @@ const Produtos = () => {
       dataValidade: produto.dataValidade,
     });
 
-    setMostrarFormulario(true); // mostra o formulario
+    setMostrarFormulario(true); 
   };
 
-  // funcao que executa quando clica no botao remover
-  const handleRemover = (id) => {
+  
+  const handleRemover = async (id) => {
     if (window.confirm("Tem certeza que deseja remover este produto?")) {
-      removerProduto(id);
-      carregarProdutos();
+      await removerProduto(id);
+      await carregarProdutos();
     }
   };
 
-  // funcao que limpa o formulario e fecha ele
+  
   const limparFormulario = () => {
-    // reseta todos os campos do formulario
+    
     setFormulario({
       nome: "",
       precoAtual: "",
@@ -104,8 +104,8 @@ const Produtos = () => {
       descricao: "",
       dataValidade: "",
     });
-    setProdutoEditando(null); // limpa o produto que tava editando
-    setMostrarFormulario(false); // esconde o formulario
+    setProdutoEditando(null); 
+    setMostrarFormulario(false); 
   };
 
   return (
@@ -135,10 +135,10 @@ const Produtos = () => {
                 <label>Nome do Produto:</label>
                 <input
                   type="text"
-                  name="nome" // name tem que ser igual ao nome no estado
-                  value={formulario.nome} // valor vem do estado
-                  onChange={handleInputChange} // atualiza o estado quando digita
-                  required // campo obrigatório
+                  name="nome" 
+                  value={formulario.nome} 
+                  onChange={handleInputChange} 
+                  required 
                 />
               </div>
 
@@ -146,7 +146,7 @@ const Produtos = () => {
                 <label>Preço Atual (R$):</label>
                 <input
                   type="number"
-                  step="0.01" // permite centavos
+                  step="0.01" 
                   name="precoAtual"
                   value={formulario.precoAtual}
                   onChange={handleInputChange}
@@ -172,7 +172,7 @@ const Produtos = () => {
               <div className="grupoFormulario">
                 <label>Data de Validade:</label>
                 <input
-                  type="date" // input especial de data
+                  type="date" 
                   name="dataValidade"
                   value={formulario.dataValidade}
                   onChange={handleInputChange}
@@ -189,7 +189,7 @@ const Produtos = () => {
                 value={formulario.descricao}
                 onChange={handleInputChange}
                 required
-                rows="3" // 3 linhas de altura
+                rows="3" 
               />
             </div>
 
@@ -200,7 +200,7 @@ const Produtos = () => {
                 {produtoEditando ? "Atualizar" : "Adicionar"}
               </button>
               <button
-                type="button" // type button pra não submeter o form
+                type="button" 
                 className="botaoSecundario"
                 onClick={limparFormulario}
               >
@@ -229,9 +229,9 @@ const Produtos = () => {
           {/* Corpo da tabela - mapeia cada produto pra uma linha */}
           <tbody>
             {produtos.map((produto) => (
-              <tr key={produto.id}>
+              <tr key={produto._id}>
                 {/* key é obrigatório em listas no React */}
-                <td>{produto.id}</td>
+                <td>{produto._id}</td>
                 <td>{produto.nome}</td>
                 <td>{produto.tipo}</td>
                 <td>R$ {produto.precoAtual.toFixed(2)}</td>
@@ -260,7 +260,7 @@ const Produtos = () => {
                   </button>
                   <button
                     className="botaoRemover"
-                    onClick={() => handleRemover(produto.id)}
+                    onClick={() => handleRemover(produto._id)}
                   >
                     Remover
                   </button>
@@ -280,3 +280,4 @@ const Produtos = () => {
 };
 
 export default Produtos;
+

@@ -1,41 +1,42 @@
-// usestate pra guardar os valores dos campos e mensagem de erro
+
 import { useState } from "react";
-// usenavigate pra redirecionar depois do login
+
 import { useNavigate } from "react-router-dom";
-// pegando a funcao de login do contexto
+
 import { useAuth } from "../context/AuthContext";
-// css da pagina de login
+
 import "./Login.css";
 
 const Login = () => {
-  // estados pra guardar o que o usuario digita
-  const [email, setEmail] = useState(""); // comeca vazio
-  const [senha, setSenha] = useState(""); // comeca vazio
-  const [erro, setErro] = useState(""); // pra mostrar mensagens de erro
+  
+  const [email, setEmail] = useState(""); 
+  const [senha, setSenha] = useState(""); 
+  const [erro, setErro] = useState(""); 
 
-  // pegando a funcao de login do contexto
+  
   const { login } = useAuth();
-  // hook pra navegar pra outra pagina
+  
   const navigate = useNavigate();
 
-  // funcao que executa quando o usuario clica em "entrar"
-  const handleSubmit = (e) => {
-    e.preventDefault(); // previne o reload da pagina
-    setErro(""); // limpa qualquer erro anterior
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault(); 
+    setErro(""); 
 
-    // validacao basica - verifica se os campos estao preenchidos
+    
     if (!email || !senha) {
       setErro("Por favor, preencha todos os campos");
-      return; // para a execucao aqui
+      return; 
     }
 
-    // chama a funcao de login (que por enquanto e mock)
-    // quando conectar com backend de verdade, isso vai validar o usuario na api
-    const sucesso = login(email, senha);
+    
+    const sucesso = await login(email, senha);
 
-    // se o login foi bem sucedido, redireciona pra pagina de produtos
+    
     if (sucesso) {
       navigate("/produtos");
+    } else {
+      setErro("Email ou senha incorretos");
     }
   };
 
@@ -54,8 +55,8 @@ const Login = () => {
             <input
               type="email"
               id="campoEmail"
-              value={email} // valor vem do estado
-              onChange={(e) => setEmail(e.target.value)} // atualiza o estado quando digita
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)} 
               placeholder="Digite seu email"
             />
           </div>
@@ -64,10 +65,10 @@ const Login = () => {
           <div className="grupoFormulario">
             <label htmlFor="senha">Senha:</label>
             <input
-              type="password" // type password esconde o texto
+              type="password" 
               id="campoSenha"
-              value={senha} // valor vem do estado
-              onChange={(e) => setSenha(e.target.value)} // atualiza o estado quando digita
+              value={senha} 
+              onChange={(e) => setSenha(e.target.value)} 
               placeholder="Digite sua senha"
             />
           </div>
@@ -86,3 +87,4 @@ const Login = () => {
 };
 
 export default Login;
+

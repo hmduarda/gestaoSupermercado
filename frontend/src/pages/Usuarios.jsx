@@ -1,6 +1,6 @@
-// importando hooks do react
+
 import { useState, useEffect } from "react";
-// importando funcoes da api pra mexer nos usuarios
+
 import {
   listarUsuarios,
   adicionarUsuario,
@@ -9,17 +9,17 @@ import {
 } from "../services/api";
 import "./Usuarios.css";
 
-// pagina de gerenciamento de usuarios
+
 const Usuarios = () => {
-  // estado com a lista de usuarios
+  
   const [usuarios, setUsuarios] = useState([]);
-  // controla se o formulario ta aparecendo
+  
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
-  // guarda qual usuario ta sendo editado
+  
   const [usuarioEditando, setUsuarioEditando] = useState(null);
-  // guarda qual usuario ta sendo visualizado no painel lateral
+  
   const [usuarioDetalhes, setUsuarioDetalhes] = useState(null);
-  // dados do formulario
+  
   const [formulario, setFormulario] = useState({
     nome: "",
     email: "",
@@ -27,38 +27,38 @@ const Usuarios = () => {
     cpf: "",
   });
 
-  // carrega os usuarios quando a pagina abre
+  
   useEffect(() => {
     carregarUsuarios();
   }, []);
 
-  // busca os usuarios
-  const carregarUsuarios = () => {
-    const dados = listarUsuarios();
+  
+  const carregarUsuarios = async () => {
+    const dados = await listarUsuarios();
     setUsuarios(dados);
   };
 
-  // atualiza o formulario quando o usuario digita
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormulario({ ...formulario, [name]: value });
   };
 
-  // salva o usuario (adiciona ou atualiza)
-  const handleSubmit = (e) => {
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (usuarioEditando) {
-      atualizarUsuario(usuarioEditando.id, formulario);
+      await atualizarUsuario(usuarioEditando._id, formulario);
     } else {
-      adicionarUsuario(formulario);
+      await adicionarUsuario(formulario);
     }
 
     limparFormulario();
-    carregarUsuarios();
+    await carregarUsuarios();
   };
 
-  // preenche o formulario com os dados do usuario pra editar
+  
   const handleEditar = (usuario) => {
     setUsuarioEditando(usuario);
     setFormulario({
@@ -71,24 +71,24 @@ const Usuarios = () => {
     setUsuarioDetalhes(null);
   };
 
-  // remove um usuario
-  const handleRemover = (id) => {
+  
+  const handleRemover = async (id) => {
     if (window.confirm("Tem certeza que deseja remover este usuário?")) {
-      removerUsuario(id);
-      carregarUsuarios();
-      if (usuarioDetalhes?.id === id) {
+      await removerUsuario(id);
+      await carregarUsuarios();
+      if (usuarioDetalhes?._id === id) {
         setUsuarioDetalhes(null);
       }
     }
   };
 
-  // mostra os detalhes do usuario no painel lateral
+  
   const handleVisualizarDetalhes = (usuario) => {
     setUsuarioDetalhes(usuario);
     setMostrarFormulario(false);
   };
 
-  // limpa o formulario e fecha ele
+  
   const limparFormulario = () => {
     setFormulario({
       nome: "",
@@ -100,7 +100,7 @@ const Usuarios = () => {
     setMostrarFormulario(false);
   };
 
-  // formata o cpf pra ficar bonito (000.000.000-00)
+  
   const formatarCPF = (cpf) => {
     return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
   };
@@ -135,8 +135,8 @@ const Usuarios = () => {
               </thead>
               <tbody>
                 {usuarios.map((usuario) => (
-                  <tr key={usuario.id}>
-                    <td>{usuario.id}</td>
+                  <tr key={usuario._id}>
+                    <td>{usuario._id}</td>
                     <td>{usuario.nome}</td>
                     <td>{usuario.email}</td>
                     <td>{formatarCPF(usuario.cpf)}</td>
@@ -155,7 +155,7 @@ const Usuarios = () => {
                       </button>
                       <button
                         className="botaoRemover"
-                        onClick={() => handleRemover(usuario.id)}
+                        onClick={() => handleRemover(usuario._id)}
                       >
                         Remover
                       </button>
@@ -249,7 +249,7 @@ const Usuarios = () => {
                 <div className="infoDetalhes">
                   <div className="itemDetalhe">
                     <strong>ID:</strong>
-                    <span>{usuarioDetalhes.id}</span>
+                    <span>{usuarioDetalhes._id}</span>
                   </div>
                   <div className="itemDetalhe">
                     <strong>Nome:</strong>
@@ -273,7 +273,7 @@ const Usuarios = () => {
                   </button>
                   <button
                     className="botaoRemover"
-                    onClick={() => handleRemover(usuarioDetalhes.id)}
+                    onClick={() => handleRemover(usuarioDetalhes._id)}
                   >
                     Remover Usuário
                   </button>
@@ -294,3 +294,4 @@ const Usuarios = () => {
 };
 
 export default Usuarios;
+
