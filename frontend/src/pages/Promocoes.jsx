@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 
 import {
@@ -8,31 +7,25 @@ import {
 } from "../services/api";
 import "./Promocoes.css";
 
-
 const Promocoes = () => {
-  
   const [produtos, setProdutos] = useState([]);
-  
+
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
-  
+
   const [precoPromocao, setPrecoPromocao] = useState("");
 
-  
   useEffect(() => {
     carregarProdutos();
   }, []);
 
-  
   const carregarProdutos = async () => {
     const dados = await listarProdutos();
     setProdutos(dados);
   };
 
-  
   const handleAplicarPromocao = async (e) => {
     e.preventDefault();
 
-    
     if (!produtoSelecionado || !precoPromocao) {
       alert("Selecione um produto e informe o preço promocional");
       return;
@@ -40,7 +33,6 @@ const Promocoes = () => {
 
     const preco = parseFloat(precoPromocao);
 
-    
     if (preco >= produtoSelecionado.precoAtual) {
       alert("O preço promocional deve ser menor que o preço atual");
       return;
@@ -49,14 +41,12 @@ const Promocoes = () => {
     await aplicarPromocao(produtoSelecionado._id, preco);
     alert("Promoção aplicada com sucesso!");
 
-    
     setProdutoSelecionado(null);
     setPrecoPromocao("");
-    
+
     await carregarProdutos();
   };
 
-  
   const handleRemoverPromocao = async (produto) => {
     if (window.confirm(`Deseja remover a promoção de ${produto.nome}?`)) {
       await removerPromocao(produto._id);
@@ -65,16 +55,13 @@ const Promocoes = () => {
     }
   };
 
-  
-  
   const calcularDesconto = (produto) => {
-    if (!produto.precoPromocao) return 0; 
+    if (!produto.precoPromocao) return 0;
 
-    
     const desconto =
       ((produto.precoAtual - produto.precoPromocao) / produto.precoAtual) * 100;
 
-    return desconto.toFixed(0); 
+    return desconto.toFixed(0);
   };
 
   return (
@@ -208,4 +195,3 @@ const Promocoes = () => {
 };
 
 export default Promocoes;
-

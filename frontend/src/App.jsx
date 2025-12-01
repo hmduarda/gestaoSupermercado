@@ -1,8 +1,3 @@
-
-
-
-
-
 import {
   BrowserRouter as Router,
   Routes,
@@ -10,24 +5,18 @@ import {
   Navigate,
 } from "react-router-dom";
 
-
 import { AuthProvider } from "./context/AuthContext";
-
 
 import RotaProtegida from "./components/RotaProtegida";
 
-
 import Navbar from "./components/Navbar";
-
 
 import Login from "./pages/Login";
 import Produtos from "./pages/Produtos";
 import Promocoes from "./pages/Promocoes";
 import Usuarios from "./pages/Usuarios";
 
-
 import "./App.css";
-
 
 function App() {
   return (
@@ -74,4 +63,3 @@ function App() {
 }
 
 export default App;
-

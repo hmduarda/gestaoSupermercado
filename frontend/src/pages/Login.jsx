@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
@@ -8,31 +7,25 @@ import { useAuth } from "../context/AuthContext";
 import "./Login.css";
 
 const Login = () => {
-  
-  const [email, setEmail] = useState(""); 
-  const [senha, setSenha] = useState(""); 
-  const [erro, setErro] = useState(""); 
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [erro, setErro] = useState("");
 
-  
   const { login } = useAuth();
-  
+
   const navigate = useNavigate();
 
-  
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
-    setErro(""); 
+    e.preventDefault();
+    setErro("");
 
-    
     if (!email || !senha) {
       setErro("Por favor, preencha todos os campos");
-      return; 
+      return;
     }
 
-    
     const sucesso = await login(email, senha);
 
-    
     if (sucesso) {
       navigate("/produtos");
     } else {
@@ -81,4 +74,3 @@ const Login = () => {
 };
 
 export default Login;
-
