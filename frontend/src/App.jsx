@@ -31,23 +31,15 @@ import "./App.css";
 
 function App() {
   return (
-    
     <AuthProvider>
-      {/* router habilita a navegacao sem recarregar a pagina */}
       <Router>
         <div className="app">
-          {/* navbar aparece em todas as paginas */}
           <Navbar />
 
-          {/* routes define todas as rotas da aplicacao */}
           <Routes>
-            {/* rota da pagina de login - essa e publica, qualquer um acessa */}
             <Route path="/login" element={<Login />} />
-
-            {/* rota raiz (/) redireciona pro login */}
             <Route path="/" element={<Navigate to="/login" replace />} />
 
-            {/* rota de produtos - protegida, so acessa se tiver logado */}
             <Route
               path="/produtos"
               element={
@@ -57,7 +49,6 @@ function App() {
               }
             />
 
-            {/* rota de promocoes - protegida */}
             <Route
               path="/promocoes"
               element={
@@ -67,7 +58,6 @@ function App() {
               }
             />
 
-            {/* rota de usuarios - protegida */}
             <Route
               path="/usuarios"
               element={

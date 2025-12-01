@@ -43,40 +43,34 @@ const Login = () => {
   return (
     <div className="containerLogin">
       <div className="caixaLogin">
-        {/* titulos da pagina */}
         <h1>Sistema Administrativo</h1>
         <h2>Supermercado</h2>
 
-        {/* formulario de login */}
         <form onSubmit={handleSubmit}>
-          {/* campo de email */}
           <div className="grupoFormulario">
             <label htmlFor="email">Email:</label>
             <input
               type="email"
               id="campoEmail"
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Digite seu email"
             />
           </div>
 
-          {/* campo de senha */}
           <div className="grupoFormulario">
             <label htmlFor="senha">Senha:</label>
             <input
-              type="password" 
+              type="password"
               id="campoSenha"
-              value={senha} 
-              onChange={(e) => setSenha(e.target.value)} 
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
               placeholder="Digite sua senha"
             />
           </div>
 
-          {/* mostra mensagem de erro se tiver algum */}
           {erro && <div className="mensagemErro">{erro}</div>}
 
-          {/* botao de submit */}
           <button type="submit" className="botaoEntrar">
             Entrar
           </button>

@@ -32,7 +32,6 @@ const Navbar = () => {
               <Link to="/usuarios">Usuários</Link>
             </li>
           </ul>
-          {/* botao de logout */}
           <button onClick={handleLogout} className="botaoSair">
             Sair
           </button>

@@ -81,29 +81,24 @@ const Promocoes = () => {
     <div className="containerPagina">
       <h1>Gerenciamento de Promoções</h1>
 
-      {/* layout dividido em 2 colunas */}
       <div className="layoutPromocoes">
-        {/* coluna da esquerda - formulario pra aplicar promocao */}
         <div className="cartaoFormulario">
           <h2>Aplicar Nova Promoção</h2>
           <form onSubmit={handleAplicarPromocao}>
-            {/* select (dropdown) pra escolher o produto */}
             <div className="grupoFormulario">
               <label>Selecione o Produto:</label>
               <select
-                value={produtoSelecionado?._id || ""} 
+                value={produtoSelecionado?._id || ""}
                 onChange={(e) => {
-                  
                   const produto = produtos.find(
                     (p) => p._id === e.target.value
                   );
                   setProdutoSelecionado(produto);
-                  setPrecoPromocao(""); 
+                  setPrecoPromocao("");
                 }}
                 required
               >
                 <option value="">Escolha um produto</option>
-                {/* mapeia os produtos pra criar as opcoes do select */}
                 {produtos.map((produto) => (
                   <option key={produto._id} value={produto._id}>
                     {produto.nome} - R$ {produto.precoAtual.toFixed(2)}
@@ -112,10 +107,8 @@ const Promocoes = () => {
               </select>
             </div>
 
-            {/* so mostra o resto do formulario se tiver um produto selecionado */}
             {produtoSelecionado && (
               <>
-                {/* box com informacoes do produto selecionado */}
                 <div className="infoProduto">
                   <p>
                     <strong>Produto:</strong> {produtoSelecionado.nome}
@@ -124,10 +117,9 @@ const Promocoes = () => {
                     <strong>Preço Atual:</strong> R${" "}
                     {produtoSelecionado.precoAtual.toFixed(2)}
                   </p>
-                  {/* aviso se o produto ja tiver promocao */}
                   {produtoSelecionado.precoPromocao && (
                     <p className="avisoPromocao">
-                      ⚠️ Este produto já possui uma promoção de R${" "}
+                      Este produto já possui uma promoção de R${" "}
                       {produtoSelecionado.precoPromocao.toFixed(2)}
                     </p>
                   )}
