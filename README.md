@@ -25,27 +25,3 @@ cd frontend
 npm install
 npm run dev
 ```
-
-## Configuração
-
-Crie `.env` em `server/`:
-
-```
-DB_URL=mongodb://localhost:27017/supermercado
-SECRET=sua_chave_secreta
-PORT=5000
-```
-
-## Primeiro Usuário
-
-```bash
-POST http://localhost:5000/api/users
-{
-  "nome": "Admin",
-  "email": "admin@email.com",
-  "senha": "123456",
-  "cpf": "11111111111"
-}
-```
-
-Login: `admin@email.com` / `123456`
